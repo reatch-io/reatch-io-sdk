@@ -30,5 +30,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Set package version from GitHub tag
+        run: |
+          # Remove leading 'v' if present in tag (v1.0.0 → 1.0.0)
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "Setting package.json version to $VERSION"
+          npm version $VERSION --no-git-tag-version
+
       - name: Publish to npm
         run: npm publish --access public
