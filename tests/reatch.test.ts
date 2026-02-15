@@ -13,7 +13,7 @@ vi.mock("../src/events.js", () => ({
 
 describe("Reatch", () => {
   const apiKey = "test-api-key"
-  const eventTime = "2024-02-15T13:45:30+02:00"
+  const eventTime = new Date(2026, 1, 15, 13, 45, 30)
 
   beforeEach(() => {
     vi.clearAllMocks()

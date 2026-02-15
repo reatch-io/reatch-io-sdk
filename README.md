@@ -24,18 +24,15 @@ await client.addAttribute("customer-123", {
 await client.logEvent(
   "customer-123",
   "Signed Up",
-  "2026-02-15T09:10:11+02:00",
+  new Date(2026, 1, 15, 9, 10, 11),
   [{source: "email"}, {campaign: "winter"}]
 )
 ```
 
 ## Event time format
 
-`logEvent` requires the event time as a string in the format `yyyy-MM-dd'T'HH:mm:ssXXX`.
-This is an ISO-8601 timestamp with a timezone offset, for example:
-
-- `2026-02-15T09:10:11+02:00`
-- `2026-02-15T09:10:11Z`
+`logEvent` accepts a JavaScript `Date`. The SDK converts it to the required
+`yyyy-MM-dd'T'HH:mm:ssXXX` string with a timezone offset before sending it.
 
 ## Tests
 

@@ -1,21 +1,39 @@
 import {post} from "./http.js"
 
-const eventTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/
+const pad = (value: number) => String(value).padStart(2, "0")
+
+const formatTimezoneOffset = (date: Date) => {
+  const offsetMinutes = -date.getTimezoneOffset()
+  if (offsetMinutes === 0) {
+    return "Z"
+  }
+
+  const sign = offsetMinutes >= 0 ? "+" : "-"
+  const absMinutes = Math.abs(offsetMinutes)
+  const hours = Math.floor(absMinutes / 60)
+  const minutes = absMinutes % 60
+
+  return `${sign}${pad(hours)}:${pad(minutes)}`
+}
+
+const formatEventTime = (date: Date) => {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}` +
+    `T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}` +
+    `${formatTimezoneOffset(date)}`
+}
 
 export function logEvent(
     apiKey: string,
     customerId: string,
     name: string,
-    time: string,
+    time: Date,
     properties?: Record<string, any>[]
 ) {
-  if (!eventTimePattern.test(time)) {
-    throw new Error("event time must be in format yyyy-MM-dd'T'HH:mm:ssXXX")
-  }
+  const formattedTime = formatEventTime(time)
 
   return post(apiKey, `/api/customers/${customerId}/events`, {
     name,
-    time,
+    time: formattedTime,
     properties
   })
 }
