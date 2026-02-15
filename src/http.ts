@@ -9,7 +9,7 @@ export async function post(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
+      "X-API-KEY": `${apiKey}`
     },
     body: JSON.stringify(body)
   })
