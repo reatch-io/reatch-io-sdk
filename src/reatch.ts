@@ -1,5 +1,6 @@
 import {addAttribute} from "./attributes.js"
 import {logEvent} from "./events.js"
+import {Attribute, Event} from "./models.js"
 
 export class ReatchIO {
   private readonly apiKey: string
@@ -8,11 +9,14 @@ export class ReatchIO {
     this.apiKey = config.apiKey
   }
 
-  addAttribute(customerId: string, attribute: Record<string, any>) {
-    return addAttribute(this.apiKey, customerId, attribute)
+  addAttribute(customerId: string, attribute: Attribute) {
+    return addAttribute(this.apiKey, customerId, {
+      [attribute.key]: attribute.value,
+    })
   }
 
-  logEvent(customerId: string, eventName: string, eventTime: Date, eventAttributes?: Record<string, any>[]) {
-    return logEvent(this.apiKey, customerId, eventName, eventTime, eventAttributes)
+  logEvent(customerId: string, event: Event) {
+    const properties = event.attributes?.map(attr => ({ [attr.key]: attr.value }));
+    return logEvent(this.apiKey, customerId, event.name, event.time, properties)
   }
 }
