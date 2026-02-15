@@ -16,17 +16,16 @@ const client = new ReatchIO({apiKey: "YOUR_API_KEY"})
 
 // Add a customer attribute
 await client.addAttribute("customer-123", {
-  plan: "pro",
-  locale: "en"
+  key: "plan",
+  value: "pro"
 })
 
-// Log an event with optional properties
-await client.logEvent(
-  "customer-123",
-  "Signed Up",
-  new Date(2026, 1, 15, 9, 10, 11),
-  [{source: "email"}, {campaign: "winter"}]
-)
+// Log an event with optional attributes
+await client.logEvent("customer-123", {
+  name: "Signed Up",
+  time: new Date(2026, 1, 15, 9, 10, 11),
+  attributes: [{key: "source", value: "email"}, {key: "campaign", value: "winter"}]
+})
 ```
 
 ## Event time format
