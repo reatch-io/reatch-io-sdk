@@ -1,7 +1,7 @@
 import {addAttribute} from "./attributes.js"
 import {logEvent} from "./events.js"
 
-export class Reatch {
+export class ReatchIO {
   private readonly apiKey: string
 
   constructor(config: { apiKey: string }) {

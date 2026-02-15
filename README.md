@@ -10,9 +10,9 @@ npm install @reatch-io/reatch-io-sdk
 ## Usage
 
 ```ts
-import {Reatch} from "@reatch-io/reatch-io-sdk"
+import {ReatchIO} from "@reatch-io/reatch-io-sdk"
 
-const client = new Reatch({apiKey: "YOUR_API_KEY"})
+const client = new ReatchIO({apiKey: "YOUR_API_KEY"})
 
 // Add a customer attribute
 await client.addAttribute("customer-123", {
