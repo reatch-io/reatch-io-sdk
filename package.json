@@ -1,5 +1,8 @@
 {
   "name": "@reatch-io/reatch-io-sdk",
+  "repository": {
+    "url": "https://github.com/reatch-io/reatch-io-sdk"
+  },
   "version": "1.0.4",
   "license": "Apache-2.0",
   "type": "module",
