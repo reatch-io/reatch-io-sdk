@@ -1,5 +1,5 @@
-import {addAttribute} from "./attribute.js"
-import {trackEvent} from "./track.js"
+import {addAttribute} from "./attributes.js"
+import {logEvent} from "./events.js"
 
 export class Reatch {
   private readonly apiKey: string
@@ -12,7 +12,7 @@ export class Reatch {
     return addAttribute(this.apiKey, customerId, attribute)
   }
 
-  track(customerId: string, event: string, time: number, properties?: Record<string, any>[]) {
-    return trackEvent(this.apiKey, customerId, event, time, properties)
+  logEvent(customerId: string, eventName: string, eventTime: string, eventAttributes?: Record<string, any>[]) {
+    return logEvent(this.apiKey, customerId, eventName, eventTime, eventAttributes)
   }
 }
