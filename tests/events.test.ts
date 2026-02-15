@@ -11,11 +11,11 @@ describe("logEvent", () => {
     vi.clearAllMocks()
   })
 
-  it("posts the event when time uses the required format", () => {
+  it("posts the event with a formatted time", () => {
     const apiKey = "api-key"
     const customerId = "customer-123"
     const name = "Signed Up"
-    const time = "2026-02-15T09:10:11+02:00"
+    const time = new Date(2026, 1, 15, 9, 10, 11)
     const properties = [{plan: "pro"}]
 
     const response = {ok: true}
@@ -25,23 +25,20 @@ describe("logEvent", () => {
 
     expect(post).toHaveBeenCalledWith(apiKey, `/api/customers/${customerId}/events`, {
       name,
-      time,
+      time: expect.stringMatching(/^2026-02-15T09:10:11(?:Z|[+-]\d{2}:\d{2})$/),
       properties
     })
     expect(result).toBe(response)
   })
 
-  it("accepts a Zulu timezone offset", () => {
-    const time = "2026-02-15T09:10:11Z"
+  it("formats the timezone offset", () => {
+    const time = new Date(2026, 1, 15, 9, 10, 11)
 
     logEvent("api-key", "customer-123", "Signed Up", time)
 
-    expect(post).toHaveBeenCalledTimes(1)
-  })
+    const call = vi.mocked(post).mock.calls[0]
+    const body = call?.[2] as { time: string }
 
-  it("rejects a time string without a timezone offset", () => {
-    expect(() =>
-      logEvent("api-key", "customer-123", "Signed Up", "2026-02-15T09:10:11")
-    ).toThrow("event time must be in format yyyy-MM-dd'T'HH:mm:ssXXX")
+    expect(body.time).toMatch(/Z|[+-]\d{2}:\d{2}$/)
   })
 })

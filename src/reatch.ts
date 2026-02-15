@@ -12,7 +12,7 @@ export class Reatch {
     return addAttribute(this.apiKey, customerId, attribute)
   }
 
-  logEvent(customerId: string, eventName: string, eventTime: string, eventAttributes?: Record<string, any>[]) {
+  logEvent(customerId: string, eventName: string, eventTime: Date, eventAttributes?: Record<string, any>[]) {
     return logEvent(this.apiKey, customerId, eventName, eventTime, eventAttributes)
   }
 }
