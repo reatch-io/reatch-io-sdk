@@ -19,7 +19,7 @@ describe("post", () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer api-key"
+        "X-API-KEY": "api-key"
       },
       body: JSON.stringify({hello: "world"})
     })
