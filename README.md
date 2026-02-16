@@ -14,11 +14,11 @@ import {ReatchIO} from "@reatch-io/reatch-io-sdk"
 
 const client = new ReatchIO({apiKey: "YOUR_API_KEY"})
 
-// Add a customer attribute
-await client.addAttribute("customer-123", {
-  key: "plan",
-  value: "pro"
-})
+// Add customer attributes
+await client.addAttributes("customer-123", [
+  {key: "plan", value: "pro"},
+  {key: "locale", value: "en"}
+])
 
 // Log an event with optional attributes
 await client.logEvent("customer-123", {
