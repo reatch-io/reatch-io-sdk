@@ -18,5 +18,10 @@ export async function post(
     throw new Error(`Reatch SDK error (${res.status})`)
   }
 
-  return res.json()
+  const text = await res.text()
+  if (!text) {
+    return null
+  }
+
+  return JSON.parse(text)
 }
