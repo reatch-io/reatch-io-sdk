@@ -1,4 +1,4 @@
-import {addAttribute} from "./attributes.js"
+import {addAttributes} from "./attributes.js"
 import {logEvent} from "./events.js"
 import {Attribute, Event} from "./models.js"
 
@@ -10,11 +10,8 @@ export class ReatchIO {
   }
 
   addAttributes(customerId: string, attributes: Attribute[]) {
-    const mergedAttributes = attributes.reduce((acc, attr) => {
-      acc[attr.key] = attr.value;
-      return acc;
-    }, {} as Record<string, any>);
-    return addAttribute(this.apiKey, customerId, mergedAttributes);
+    const properties = attributes.map(attr => ({ [attr.key]: attr.value }));
+    return addAttributes(this.apiKey, customerId, properties);
   }
 
   logEvent(customerId: string, event: Event) {

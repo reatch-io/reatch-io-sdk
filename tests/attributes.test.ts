@@ -1,12 +1,12 @@
 import {beforeEach, describe, expect, it, vi} from "vitest"
-import {addAttribute} from "../src/attributes.js"
+import {addAttributes} from "../src/attributes.js"
 import {post} from "../src/http.js"
 
 vi.mock("../src/http.js", () => ({
   post: vi.fn()
 }))
 
-describe("addAttribute", () => {
+describe("addAttributes", () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -14,16 +14,14 @@ describe("addAttribute", () => {
   it("posts the attribute payload", () => {
     const apiKey = "api-key"
     const customerId = "customer-123"
-    const attribute = {plan: "pro"}
+    const attributes = [{plan: "pro"}]
     const response = {ok: true}
 
     vi.mocked(post).mockReturnValueOnce(response as unknown as ReturnType<typeof post>)
 
-    const result = addAttribute(apiKey, customerId, attribute)
+    const result = addAttributes(apiKey, customerId, attributes)
 
-    expect(post).toHaveBeenCalledWith(apiKey, `/api/customers/${customerId}/attributes`, {
-      attribute
-    })
+    expect(post).toHaveBeenCalledWith(apiKey, `/api/customers/${customerId}/attributes`, attributes)
     expect(result).toBe(response)
   })
 })

@@ -1,11 +1,9 @@
 import {post} from "./http.js"
 
-export function addAttribute(
+export function addAttributes(
     apiKey: string,
     customerId: string,
-    attribute: Record<string, any>
+    attributes: Record<string, any>[]
 ) {
-  return post(apiKey, `/api/customers/${customerId}/attributes`, {
-    attribute
-  })
+  return post(apiKey, `/api/customers/${customerId}/attributes`, attributes)
 }

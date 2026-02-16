@@ -1,10 +1,10 @@
 import {beforeEach, describe, expect, it, vi} from "vitest"
 import {ReatchIO} from "../src/reatch.js"
-import {addAttribute} from "../src/attributes.js"
+import {addAttributes} from "../src/attributes.js"
 import {logEvent} from "../src/events.js"
 
 vi.mock("../src/attributes.js", () => ({
-  addAttribute: vi.fn()
+  addAttributes: vi.fn()
 }))
 
 vi.mock("../src/events.js", () => ({
@@ -24,14 +24,14 @@ describe("ReatchIO", () => {
     const attributes = [{key: "plan", value: "pro"}, {key: "locale", value: "en"}]
     const result = {ok: true}
 
-    vi.mocked(addAttribute).mockReturnValueOnce(result as unknown as ReturnType<typeof addAttribute>)
+    vi.mocked(addAttributes).mockReturnValueOnce(result as unknown as ReturnType<typeof addAttributes>)
 
     const response = client.addAttributes("customer-123", attributes)
 
-    expect(addAttribute).toHaveBeenCalledWith(apiKey, "customer-123", {
-      plan: "pro",
-      locale: "en"
-    })
+    expect(addAttributes).toHaveBeenCalledWith(apiKey, "customer-123", [
+      {plan: "pro"},
+      {locale: "en"}
+    ])
     expect(response).toBe(result)
   })
 
