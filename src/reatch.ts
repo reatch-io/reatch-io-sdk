@@ -6,13 +6,15 @@ export class ReatchIO {
   private readonly apiKey: string
 
   constructor(config: { apiKey: string }) {
-    this.apiKey = config.apiKey
+    this.apiKey = config.apiKey;
   }
 
-  addAttribute(customerId: string, attribute: Attribute) {
-    return addAttribute(this.apiKey, customerId, {
-      [attribute.key]: attribute.value,
-    })
+  addAttributes(customerId: string, attributes: Attribute[]) {
+    const mergedAttributes = attributes.reduce((acc, attr) => {
+      acc[attr.key] = attr.value;
+      return acc;
+    }, {} as Record<string, any>);
+    return addAttribute(this.apiKey, customerId, mergedAttributes);
   }
 
   logEvent(customerId: string, event: Event) {

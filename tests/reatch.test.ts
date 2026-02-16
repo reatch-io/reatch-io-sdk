@@ -19,17 +19,18 @@ describe("ReatchIO", () => {
     vi.clearAllMocks()
   })
 
-  it("forwards addAttribute calls with the configured apiKey", () => {
+  it("forwards addAttributes calls with the configured apiKey", () => {
     const client = new ReatchIO({apiKey})
-    const attribute = {key: "plan", value: "pro"}
+    const attributes = [{key: "plan", value: "pro"}, {key: "locale", value: "en"}]
     const result = {ok: true}
 
     vi.mocked(addAttribute).mockReturnValueOnce(result as unknown as ReturnType<typeof addAttribute>)
 
-    const response = client.addAttribute("customer-123", attribute)
+    const response = client.addAttributes("customer-123", attributes)
 
     expect(addAttribute).toHaveBeenCalledWith(apiKey, "customer-123", {
-      [attribute.key]: attribute.value,
+      plan: "pro",
+      locale: "en"
     })
     expect(response).toBe(result)
   })
