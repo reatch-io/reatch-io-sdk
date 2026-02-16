@@ -28,10 +28,7 @@ describe("ReatchIO", () => {
 
     const response = client.addAttributes("customer-123", attributes)
 
-    expect(addAttributes).toHaveBeenCalledWith(apiKey, "customer-123", [
-      {plan: "pro"},
-      {locale: "en"}
-    ])
+    expect(addAttributes).toHaveBeenCalledWith(apiKey, "customer-123", attributes)
     expect(response).toBe(result)
   })
 
@@ -45,7 +42,7 @@ describe("ReatchIO", () => {
 
     client.logEvent("customer-123", event)
 
-    expect(logEvent).toHaveBeenCalledWith(apiKey, "customer-123", "Signed Up", eventTime, [{plan: "pro"}, {source: "email"}])
+    expect(logEvent).toHaveBeenCalledWith(apiKey, "customer-123", event)
   })
 
   it("forwards logEvent calls without properties", () => {
@@ -57,6 +54,6 @@ describe("ReatchIO", () => {
 
     client.logEvent("customer-123", event)
 
-    expect(logEvent).toHaveBeenCalledWith(apiKey, "customer-123", "Signed Up", eventTime, undefined)
+    expect(logEvent).toHaveBeenCalledWith(apiKey, "customer-123", event)
   })
 })

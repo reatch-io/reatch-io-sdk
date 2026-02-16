@@ -25,15 +25,13 @@ const formatEventTime = (date: Date) => {
 export function logEvent(
     apiKey: string,
     customerId: string,
-    name: string,
-    time: Date,
-    properties?: Record<string, any>[]
+    event: Event
 ) {
-  const formattedTime = formatEventTime(time)
+  const formattedTime = formatEventTime(event.time)
 
   return post(apiKey, `/api/customers/${customerId}/events`, {
-    name,
+    name: event.name,
     time: formattedTime,
-    properties
+    attributes: event.attributes
   })
 }

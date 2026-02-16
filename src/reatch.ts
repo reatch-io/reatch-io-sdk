@@ -10,12 +10,10 @@ export class ReatchIO {
   }
 
   addAttributes(customerId: string, attributes: Attribute[]) {
-    const properties = attributes.map(attr => ({ [attr.key]: attr.value }));
-    return addAttributes(this.apiKey, customerId, properties);
+    return addAttributes(this.apiKey, customerId, attributes);
   }
 
   logEvent(customerId: string, event: Event) {
-    const properties = event.attributes?.map(attr => ({ [attr.key]: attr.value }));
-    return logEvent(this.apiKey, customerId, event.name, event.time, properties)
+    return logEvent(this.apiKey, customerId, event)
   }
 }
