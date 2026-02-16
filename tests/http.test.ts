@@ -10,7 +10,8 @@ describe("post", () => {
     const json = vi.fn().mockResolvedValueOnce({ok: true})
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
       ok: true,
-      json
+      json,
+      text: vi.fn().mockResolvedValueOnce(JSON.stringify({ok: true}))
     } as unknown as Response)
 
     const result = await post("api-key", "/api/test", {hello: "world"})
@@ -23,8 +24,28 @@ describe("post", () => {
       },
       body: JSON.stringify({hello: "world"})
     })
-    expect(json).toHaveBeenCalledTimes(1)
+    expect(json).not.toHaveBeenCalled()
     expect(result).toEqual({ok: true})
+  })
+
+  it("handles an empty response body", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: vi.fn().mockResolvedValueOnce(null),
+      text: vi.fn().mockResolvedValueOnce("")
+    } as unknown as Response)
+
+    const result = await post("api-key", "/api/test", {hello: "world"})
+
+    expect(fetchSpy).toHaveBeenCalledWith("https://api.reatch.io/api/test", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "api-key"
+      },
+      body: JSON.stringify({hello: "world"})
+    })
+    expect(result).toBeNull()
   })
 
   it("throws when the response is not ok", async () => {
